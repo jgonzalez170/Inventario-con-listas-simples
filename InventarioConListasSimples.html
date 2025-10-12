@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario con Vectores</title>
+
+</head>
+<body>
+    <h1>Inventario con Vectores (desordenado)</h1>
+    <div id="app">
+        <form>
+            <label for="codigo">
+                codigo: <input type="number" id="codigo">
+            </label>
+            <label for="nombre">
+                nombre: <input type="text" id="nombre">
+            </label>
+            <label for="cantidad">
+                cantidad: <input type="number" id="cantidad">
+            </label>
+            <label for="costo">
+                costo: <input type="number" id="costo">
+            </label>
+            <label for="posicion">
+                posicion(usese solo en caso de posicionar un producto): <input type="number" id="posicion">
+            </label>
+            <button type="button" id="btnAgregar">Agregar Producto</button>
+            <button type="button" id="btnListar">Listar Inventario</button>
+            <button type="button" id="btnBuscar">Buscar Producto</button>
+            <button type="button" id="btnEliminar">Eliminar Producto</button>
+            <button type="reset" id="btnCancelar">Cancelar</button>
+            <button type="button" id="btnPosicionar">Posicionar Producto</button>
+            <button type="button" id="btnExtraerPrimero">Extraer Primero</button>
+            <button type="button" id="btnAgregarInicial">Agregar al inicio</button>
+
+
+        </form>
+
+
+    </div>
+    <div id="detalles">
+        
+    </div>
+
+</body>
+<script type="module" src="app.js"></script>
+</html>
