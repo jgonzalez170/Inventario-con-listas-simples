@@ -57,29 +57,31 @@ export class Inventario {
     }
     eliminar(codigo) {
         if (this.buscar(codigo) === null) {
-            return "Producto no encontrado";
+            return null;
+        } else if (this.primero.codigo === codigo) {
+            let eliminado = this.primero;
+            this.primero = null;
+            return eliminado;
         } else {
-
+            return this._eliminar(this.primero, codigo);
         }
     }
 
-    _comparar(codigo) {
-        let actual = this.primero;
-        let anterior = null;
-        if (actual.codigo === codigo) {
-            return actual;
-        } else {
-            let producto = null;
-            while (actual.siguiente !== null && producto === null) {
-                if (actual.codigo === codigo) {
+    _eliminar(actual, codigo) {
+        let anterior = null; 
+        while (actual) {
+            if (actual.codigo === codigo) {
+                if (anterior) {
                     anterior.siguiente = actual.siguiente;
-                    producto = actual;
+                } else {
+                    this.primero = actual.siguiente;
                 }
-                anterior = actual;
-                actual = actual.siguiente;
+                return actual;
             }
-            return producto;
+            anterior = actual;
+            actual = actual.siguiente;
         }
+        return null;
     }
 
     listar() {
