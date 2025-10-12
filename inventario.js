@@ -8,12 +8,14 @@ export class Inventario {
             this.primero = producto;
             return producto;
         } else {
-            this._agregate(this.primero, producto);
-            return producto;
+            return this._agregate(this.primero, producto);
         }
     }
     _agregate(productoX, nuevo) {
         if (productoX.siguiente === null) {
+            if (productoX.codigo === nuevo.codigo) {
+                return null; // No duplicados
+            }
             productoX.siguiente = nuevo;
             return nuevo;
         } else {
@@ -40,20 +42,20 @@ export class Inventario {
         }
     }
 
-    /*buscar(codigo) {
+    buscar(codigo) {
         if (!this.primero) {
             return null
         } else {
             let temp = this.primero;
-            while(temp != null ) {
+            while(temp) {
                 if (temp.codigo === codigo) {
-                    return temp
+                    return temp;
                 }
                 temp = temp.siguiente;
             }
-            return null
+            return null;
         }
-    }*/
+    }
     eliminar(codigo) {
         let producto = null
         for (let i = 0; i < this.productos.length; i++) {

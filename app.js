@@ -9,10 +9,13 @@ btnAgregar.addEventListener('click', () => {
     let cantidad = parseInt(document.getElementById('cantidad').value);
     let costo = parseFloat(document.getElementById('costo').value);
     let producto = new Producto(codigo, nombre, cantidad, costo);
-    miInventario.agregar(producto);
+    producto= miInventario.agregar(producto);
     let msg = document.getElementById('detalles');
-    msg.innerHTML += "<h5>Producto agregado:</h5>" + 
-    producto.infoHtml();
+    if (producto) {
+        msg.innerHTML += `<h5>Producto agregado:</h5>` + producto.infoHtml();
+    } else {
+        msg.innerHTML += `<h5>Producto no agregado (código duplicado)</h5>`;
+    }
 });
 const btnListar = document.getElementById('btnListar');
 btnListar.addEventListener('click', () => {
@@ -21,7 +24,7 @@ btnListar.addEventListener('click', () => {
 });
 const btnBuscar = document.getElementById('btnBuscar');
 btnBuscar.addEventListener('click', () => {
-    let codigo = document.getElementById('codigo').value;
+    let codigo = Number(document.getElementById('codigo').value);
     let producto = miInventario.buscar(codigo);
     let msg = document.getElementById('detalles');
     if (producto) {
