@@ -4,7 +4,7 @@ import { Inventario } from './inventario.js';
 const miInventario = new Inventario();
 const btnAgregar = document.getElementById('btnAgregar');
 btnAgregar.addEventListener('click', () => {
-    let codigo = Number(document.getElementById('codigo').value);
+    let codigo = parseInt(document.getElementById('codigo').value);
     let nombre = document.getElementById('nombre').value;
     let cantidad = parseInt(document.getElementById('cantidad').value);
     let costo = parseFloat(document.getElementById('costo').value);
@@ -35,9 +35,14 @@ btnBuscar.addEventListener('click', () => {
 });
 const btnEliminar = document.getElementById('btnEliminar');
 btnEliminar.addEventListener('click', () => {
-    let codigo = document.getElementById('codigo').value;
+    let codigo = Number(document.getElementById('codigo').value);
     let msg = document.getElementById('detalles');
-    msg.innerHTML += `<h5>${miInventario.eliminar(codigo)}</h5>`;
+    let producto = miInventario.eliminar(codigo);
+    if (producto) {
+        msg.innerHTML += `<h5>Producto eliminado:</h5>` + producto.infoHtml();
+    } else {
+        msg.innerHTML += `<h5>Producto no encontrado</h5>`;
+    }
 });
 const btnExtraerPrimero = document.getElementById('btnExtraerPrimero');
 btnExtraerPrimero.addEventListener('click', () => {

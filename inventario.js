@@ -12,14 +12,13 @@ export class Inventario {
         }
     }
     _agregate(productoX, nuevo) {
-        if (productoX.siguiente === null) {
-            if (productoX.codigo === nuevo.codigo) {
-                return null; // No duplicados
-            }
+        if (productoX.codigo === nuevo.codigo) {
+            return null; // No duplicados
+        } else if (productoX.siguiente === null) {
             productoX.siguiente = nuevo;
             return nuevo;
         } else {
-            this._agregate(productoX.siguiente, nuevo);
+            return this._agregate(productoX.siguiente, nuevo);
         }
     }
 
@@ -47,7 +46,7 @@ export class Inventario {
             return null
         } else {
             let temp = this.primero;
-            while(temp) {
+            while (temp) {
                 if (temp.codigo === codigo) {
                     return temp;
                 }
@@ -57,30 +56,29 @@ export class Inventario {
         }
     }
     eliminar(codigo) {
-        let producto = null
-        for (let i = 0; i < this.productos.length; i++) {
-            if (this.productos[i].codigo === codigo) {
-                producto = this.productos[i]
-                for (let j = i; j < this.productos.length - 1; j++) {
-                    this.productos[j] = this.productos[j + 1]
-                }
-                this.productos.pop()
-                return `Producto eliminado: ${producto.info()}`
-            }
+        if (this.buscar(codigo) === null) {
+            return "Producto no encontrado";
+        } else {
+
         }
-        return `No se encontró el producto con código ${codigo}`;
     }
 
-    insertarProductoEnPosicion(posicion, producto) {
-        if (posicion < 0 || posicion > this.productos.length) {
-            return "Posición inválida";
+    _comparar(codigo) {
+        let actual = this.primero;
+        let anterior = null;
+        if (actual.codigo === codigo) {
+            return actual;
         } else {
-            this.productos.push(0) // Agrandar el arreglo en la ultima posicion
-            for (let i = this.productos.length - 1; i > posicion; i--) { // Empezar a mover los datos a la derecha desde la posicion p y en la posicion p insertar el valor
-                this.productos[i] = this.productos[i - 1]
+            let producto = null;
+            while (actual.siguiente !== null && producto === null) {
+                if (actual.codigo === codigo) {
+                    anterior.siguiente = actual.siguiente;
+                    producto = actual;
+                }
+                anterior = actual;
+                actual = actual.siguiente;
             }
-            this.productos[posicion] = producto
-            return `Producto insertado en la posición ${posicion}: ${producto.info()}`
+            return producto;
         }
     }
 
