@@ -67,8 +67,17 @@ btnAgregarInicial.addEventListener('click', () => {
 
 const btnPosicionar = document.getElementById('btnPosicionar');
 btnPosicionar.addEventListener('click', () => {
-    let codigo = document.getElementById('codigo').value;
+    let codigo = parseInt(document.getElementById('codigo').value);
+    let nombre = document.getElementById('nombre').value;
+    let cantidad = parseInt(document.getElementById('cantidad').value);
+    let costo = parseFloat(document.getElementById('costo').value);
+    let producto = new Producto(codigo, nombre, cantidad, costo);
     let posicion = parseInt(document.getElementById('posicion').value);
     let msg = document.getElementById('detalles');
-    msg.innerHTML += `<h5>${miInventario.posicionar(codigo, posicion)}</h5>`;
+    let productoAgregado = miInventario.agregarEnposicion(producto, posicion);
+    if (!productoAgregado) {
+        msg.innerHTML += `<h5>Producto no agregado (posición inválida o código duplicado)</h5>`;
+    } else {
+        msg.innerHTML += `<h5>Producto agregado en la posición ${posicion}:</h5>` + producto.infoHtml();
+    }
 });

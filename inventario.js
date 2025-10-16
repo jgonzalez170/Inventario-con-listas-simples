@@ -28,6 +28,7 @@ export class Inventario {
         } else {
             producto.siguiente = this.primero;
             this.primero = producto;
+            return producto;
         }
     }
 
@@ -68,7 +69,7 @@ export class Inventario {
     }
 
     _eliminar(actual, codigo) {
-        let anterior = null; 
+        let anterior = null;
         while (actual) {
             if (actual.codigo === codigo) {
                 if (anterior) {
@@ -84,34 +85,47 @@ export class Inventario {
         return null;
     }
 
-    listar() {
-        let resultado = "";
-        for (let i = 0; i < this.productos.length; i++) {
-            resultado += ` ${this.productos[i].info()} `;
+    agregarEnposicion(producto, posicion) {
+        if (posicion <= 0) { // Si la posición es inválida no lo agrego
+            return null;
         }
-        return resultado;
+        if (this.buscar(producto.codigo)) {
+            return null; // Si el código ya existe, no agregar
+        }
+
+        if (posicion === 1) { // Si la posición es 1, agregar al inicio
+            this.agregarInicio(producto);
+            return producto;
+        }
+        if (posicion === 2) { 
+            producto.siguiente = this.primero.siguiente;
+            this.primero.siguiente = producto;
+            return producto;
+        }
+
+        let actual = this.primero;
+        let contador = 1;
+
+        while (actual && contador < posicion - 1) { // Recorrer hasta la posición anterior
+            actual = actual.siguiente;
+            contador++;
+        }
+
+        if (actual) { // Si se encuentra la posición válida
+            producto.siguiente = actual.siguiente;
+            actual.siguiente = producto;
+            return producto;
+        } else { // Si la posición es mayor al tamaño de la lista
+            return null;
+        }
     }
 
-    extraerPrimero() {
-        let producto = this.productos[0];
-        for (let i = 0; i < this.productos.length - 1; i++) {
-            this.productos[i] = this.productos[i + 1];
-        }
-        this.productos.pop();
-        return producto;
-    }
-    agregarInicio(producto) {
-        this.productos.push(0)
-        for (let i = this.productos.length - 1; i > 0; i--) {
-            this.productos[i] = this.productos[i - 1]
-        }
-        this.productos[0] = producto;
-        return `Producto agregado al inicio: ${producto.info()}`;
-    }
     listarHtml() {
         let resultado = "<h3>Listado de productos:</h3>";
-        for (let i = 0; i < this.productos.length; i++) {
-            resultado += `<div>${this.productos[i].info()}</div>`;
+        let actual = this.primero;
+        while (actual) {
+            resultado += actual.infoHtml();
+            actual = actual.siguiente;
         }
         return resultado;
     }
